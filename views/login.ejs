@@ -1,0 +1,63 @@
+<%- include('./partials/header.ejs') %>
+  <body class="bg-cover bg-center bg-no-repeat bg-fixed min-h-screen" style="background-image: url('/images/registerBG.jpg');">
+    
+    <div class="h-screen flex justify-center items-center ">
+        <div class="bg-white/30 backdrop-blur-sm rounded-lg shadow-lg p-10">
+
+          <form action="" id="registerForm" >
+            <div class="mb-10 h-10 relative">
+              <label for="username" class="top-1 text-orange-200">Username</label>
+              <input type="text" name="username" id="username" class="w-full h-full  bg-slate-300 rounded-md " />
+            </div>
+            <div class="mb-10 h-10 relative">
+              <label for="password" class="top-1 text-orange-200">Password</label>
+              <input type="text" name="password" id="password" class="w-full h-full  bg-slate-300 rounded-md " />
+            </div>
+            
+            <div class="text-center">
+              <button type="submit" class="bg-orange-500 bg-opacity-40 p-2 rounded-md text-sky-200">Register</button>
+            </div>
+            
+          </form>
+        </div>
+      
+    </div>
+    <!-- <div class="flex justify-center items-center">
+      <form action="" id="registerForm" class="flex justify-center items-center">
+        <label for="username">Usernaem</label>
+        <input type="text" name="username" id="username" />
+        <label for="password">password</label>
+        <input type="text" name="password" id="password" />
+        <label for="confirmPassword">confirmPassword</label>
+        <input type="text" name="confirmPassword" id="confirmPassword" />
+        <label for="email">email</label>
+        <input type="text" name="email" id="email" />
+        <button type="submit">Submit</button>
+      </form>
+    </div> -->
+    <script>
+      const form = document.getElementById("registerForm");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const email = document.getElementById("email");
+      });
+
+      const registerUser = async (
+        username,
+        password,
+        confirmPassword,
+        email
+      ) => {
+        try {
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    </script>
+  </body>
+</html>
