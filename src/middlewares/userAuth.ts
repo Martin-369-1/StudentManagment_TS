@@ -11,8 +11,9 @@ export const isUserLoggedIn = (
     if (err || !token) {
       return res.redirect('/login')
     }
+
+    req.user=token
     
-    req.user = token.sub;
     next();
   })(req, res, next);
 };

@@ -9,6 +9,7 @@ config();
 const app = express();
 
 import userRouter from "./routers/userRouter";
+import studentRouter from "./routers/studentsRouter";
 
 //Middlewares
 app.use(cookieParser())
@@ -22,6 +23,7 @@ app.use(passport.initialize())
 
 //Routes
 app.use("/", userRouter);
+app.use("/students",studentRouter)
 
 connectMongo();
 app.listen(process.env.PORT, () => {

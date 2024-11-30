@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import generateAccessToken from "../utils/jwtUtil";
-import { addUser,getUser } from "../services/userService";
+import { addUser,getUserByEmail,getUserByID } from "../services/userService";
 import { StatusCodes } from "../utils/constants";
 
 export const getLogin = (req: Request, res: Response) => {
@@ -12,7 +12,7 @@ export const postLogin = async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } =
       req.body;
     
-    const user=await getUser(email);
+    const user=await getUserByEmail(email);
 
     if(!user){
       res.status(StatusCodes.UNAUTHORIZED).json({success:false,message:'User not exist'})
@@ -31,6 +31,11 @@ export const postLogin = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+
+export const getLogout=(req:Request,res:Response)=>{
+  res.clearCookie('jwt');
+  res.redirect('/login')
+}
 
 export const getRegister = (req: Request, res: Response) => {
   res.render("register");

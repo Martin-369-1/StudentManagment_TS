@@ -8,11 +8,21 @@ interface IUser extends Document{
   email:string
 }
 
-export const getUser=async(email:string):Promise<IUser|null>=>{
+export const getUserByEmail=async(email:string):Promise<IUser|null>=>{
   try{
     const user=await User.findOne({email});
     return user;
     
+  }catch(err){
+    console.log(err);
+    return null;
+  }
+}
+
+export const getUserByID=async(id:string)=>{
+  try{
+    const user=await User.findById(id)
+    return user
   }catch(err){
     console.log(err);
     return null;
