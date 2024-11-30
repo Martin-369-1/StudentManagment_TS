@@ -16,3 +16,16 @@ export const isUserLoggedIn = (
     next();
   })(req, res, next);
 };
+
+export const isUserLoggedOut=(req: Request,
+  res: Response,
+  next: NextFunction)=>{
+    passport.authenticate("jwt", async (err: Error, token: string, info: any) => {      
+      if (err || !token) {
+        return next();
+      }
+      
+      req.user = token.sub;
+      res.redirect('/')
+    })(req, res, next);
+}
