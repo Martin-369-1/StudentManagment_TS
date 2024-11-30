@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Request } from "express";
+import User from "../models/userModel";
 import {ExtractJwt, Strategy as jwtStrategy,JwtFromRequestFunction} from "passport-jwt"
 import fs from "fs"
 import path from "path";
@@ -18,6 +19,17 @@ const JwtStrategy=new jwtStrategy(
         secretOrKey:pub_key
     },
     async(token,done)=>{
+        if(!token.sub){
+            return done(null,false)
+        }
+
+        const user=await User.findById(token.sub)
+
+        if(!user){
+            return done(null,false)
+        }
+
+        
         done(null,token)
     }
 )

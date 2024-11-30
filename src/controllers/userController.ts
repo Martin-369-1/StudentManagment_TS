@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import generateAccessToken from "../utils/jwtUtil";
-import { addUser } from "../services/userService";
+import { addUser,getUser } from "../services/userService";
 import { StatusCodes } from "../utils/constants";
 
 export const getLogin = (req: Request, res: Response) => {
@@ -9,15 +9,24 @@ export const getLogin = (req: Request, res: Response) => {
 
 export const postLogin = async (req: Request, res: Response) => {
   try {
-    const { username, password }: { username: string; password: string } =
+    const { email, password }: { email: string; password: string } =
       req.body;
-    if (username == "ayush" && password == "123") {
-      const token = generateAccessToken(username, "1212");
-      res.cookie("jwt", token);
-      res.json({ message: "successs" });
+    
+    const user=await getUser(email);
+
+    if(!user){
+      res.status(StatusCodes.UNAUTHORIZED).json({success:false,message:'User not exist'})
       return;
     }
-    res.send({ message: "faliure" });
+
+    if(user.password != password){
+      res.status(StatusCodes.UNAUTHORIZED).json({success:false,message:'Incorrect password'})
+      return;
+    }
+
+    const jwtToken=generateAccessToken(user.email,user.id);
+    res.cookie('jwt',jwtToken).status(StatusCodes.OK).json({success:true,message:'Logged in',redirectUrl:'/'})
+
   } catch (err) {
     console.log(err);
   }
