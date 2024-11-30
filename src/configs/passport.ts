@@ -7,7 +7,6 @@ import path from "path";
 const pub_key=fs.readFileSync(path.join(__dirname,"../../keys/rsa_pub_key.pem"))
 
 const extractTokenFromCookies:JwtFromRequestFunction = (req:Request) => {
-    console.log("extract token");
     
     const token = req.cookies['jwt'];  
     return token; 
@@ -19,7 +18,6 @@ const JwtStrategy=new jwtStrategy(
         secretOrKey:pub_key
     },
     async(token,done)=>{
-        console.log(token);
         done(null,token)
     }
 )

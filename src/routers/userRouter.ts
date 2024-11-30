@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 //controllers
-import { getLogin, postLogin } from "../controllers/userController";
+import { getLogin, postLogin ,getRegister,postRegister} from "../controllers/userController";
 
 //middlewares
 import { isUserLoggedIn } from "../middlewares/userAuth";
@@ -12,5 +12,7 @@ router.get("/",isUserLoggedIn,(req, res) => {
 });
 
 router.route("/login").get(getLogin).post(postLogin);
+
+router.route("/register").get(getRegister).post(postRegister)
 
 export default router;
