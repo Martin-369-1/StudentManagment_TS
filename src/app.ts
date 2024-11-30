@@ -1,17 +1,27 @@
 import express from "express";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import path from "path";
-dotenv.config()
+import connectMongo from "./configs/dbconfig";
+import cookieParser from "cookie-parser"
+import passport from "./configs/passport"
+config();
+const app = express();
 
-const app=express();
-app.use(express.static(path.join(__dirname, '../public')));
-app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'../views'))
+import userRouter from "./routers/userRouter";
 
-app.get('/',(req,res)=>{
-    res.render('index')
-})
+//Middlewares
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, "../public")));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "../views"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize())
 
-app.listen(process.env.PORT,()=>{
-    console.log(`Server is running on port ${process.env.PORT}`);
-})
+//Routes
+app.use("/", userRouter);
+
+connectMongo();
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
+});
