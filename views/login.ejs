@@ -35,7 +35,7 @@
 
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-
+        console.log(password)
         const validationError=[checkValidPassword(password,password),checkValidEmail(email) ]
         validationError.forEach((error)=>{
           if(error) notyf.error(error);
