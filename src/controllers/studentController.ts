@@ -1,12 +1,18 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "../utils/constants";
 import {
   addStudent,
   studentList,
-  deleteStudentByID, editStudent,getStudent
+  deleteStudentByID,
+  editStudent,
+  getStudent,
 } from "../services/studentService";
 
-export const getStudents = async (req: Request, res: Response) => {
+export const getStudents = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const pageNo = req.query.pageNo ? Number(req.query.pageNo) : 1;
     const search = req.query.search ? String(req.query.search) : "";
@@ -17,7 +23,7 @@ export const getStudents = async (req: Request, res: Response) => {
     );
     res.render("students", { user: req.user, students, search });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
@@ -25,7 +31,11 @@ export const getAddStudent = (req: Request, res: Response) => {
   res.render("addStudent", { user: req.user });
 };
 
-export const postAddStudent = async (req: Request, res: Response) => {
+export const postAddStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const {
       name,
@@ -64,47 +74,52 @@ export const postAddStudent = async (req: Request, res: Response) => {
       redirectUrl: "/students",
     });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
-export const deleteStudent = async (req: Request, res: Response) => {
+export const deleteStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = req.params.id;
-    
+
     await deleteStudentByID(id);
 
-    res
-      .status(StatusCodes.OK)
-      .json({
-        success: true,
-        message: "student deleted",
-        redirectUrl: "students",
-      });
-
-    
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "student deleted",
+      redirectUrl: "students",
+    });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
-export const getEditStudent=async(req:Request,res:Response)=>{
-  try{
-    const studentID=req.params.id;
-    const student=await getStudent(studentID);
-    res.render('editStudent',{user:req.user,student})
-
-  }catch(err){
-    console.log(err);
-    
-  }
-}
-
-export const putEditStudent = async (req: Request, res: Response) => {
+export const getEditStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const id=req.params.id;
-    console.log(id);
-    
+    const studentID = req.params.id;
+    const student = await getStudent(studentID);
+    res.render("editStudent", { user: req.user, student });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const putEditStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.id;
+
     const {
       name,
       DOB,
@@ -130,13 +145,13 @@ export const putEditStudent = async (req: Request, res: Response) => {
       grade,
       enrollmentDate
     );
-    
+
     res.status(result.statusCode).json({
       success: result.success,
       message: result.message,
       redirectUrl: "/students",
     });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };

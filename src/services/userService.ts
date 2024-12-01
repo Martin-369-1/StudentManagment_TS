@@ -2,32 +2,31 @@ import User from "../models/userModel";
 import { StatusCodes } from "../utils/constants";
 import { Document } from "mongoose";
 
-interface IUser extends Document{
-  username:string,
-  password:string,
-  email:string
+interface IUser extends Document {
+  username: string;
+  password: string;
+  email: string;
 }
 
-export const getUserByEmail=async(email:string):Promise<IUser|null>=>{
-  try{
-    const user=await User.findOne({email});
+export const getUserByEmail = async (email: string): Promise<IUser | null> => {
+  try {
+    const user = await User.findOne({ email });
     return user;
-    
-  }catch(err){
+  } catch (err) {
     console.log(err);
     return null;
   }
-}
+};
 
-export const getUserByID=async(id:string)=>{
-  try{
-    const user=await User.findById(id)
-    return user
-  }catch(err){
+export const getUserByID = async (id: string) => {
+  try {
+    const user = await User.findById(id);
+    return user;
+  } catch (err) {
     console.log(err);
     return null;
   }
-}
+};
 
 export const addUser = async (
   username: string,

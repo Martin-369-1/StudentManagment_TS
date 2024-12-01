@@ -8,6 +8,6 @@ export enum StatusCodes {
   FORBIDDEN = 403,
   NOT_FOUND = 404,
   CONFLICT = 409,
-  
+
   INTERNAL_SERVER_ERROR = 500,
 }

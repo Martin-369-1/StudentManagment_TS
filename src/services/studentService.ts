@@ -62,14 +62,13 @@ export const addStudent = async (
   }
 };
 
-export const getStudent = async (studentID:string)=>{
-  try{
-    return await Student.findOne({_id:studentID});
-  }catch(err){
+export const getStudent = async (studentID: string) => {
+  try {
+    return await Student.findOne({ _id: studentID });
+  } catch (err) {
     console.log(err);
-    
   }
-}
+};
 
 export const editStudent = async (
   studentID: string,
@@ -81,9 +80,11 @@ export const editStudent = async (
   enrollmentDate: Date
 ) => {
   try {
-    console.log("dd");
-    
-    const student = await Student.findOne({ admissionNo , _id:{$ne:studentID}});
+
+    const student = await Student.findOne({
+      admissionNo,
+      _id: { $ne: studentID },
+    });
 
     if (student) {
       return {
@@ -93,7 +94,10 @@ export const editStudent = async (
       };
     }
 
-    await Student.updateOne({_id:studentID},{name,DOB,gender,admissionNo,grade,enrollmentDate})
+    await Student.updateOne(
+      { _id: studentID },
+      { name, DOB, gender, admissionNo, grade, enrollmentDate }
+    );
 
     return {
       success: true,
