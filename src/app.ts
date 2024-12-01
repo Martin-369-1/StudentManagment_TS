@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request,Response, NextFunction } from "express";
 import { config } from "dotenv";
 import path from "path";
 import connectMongo from "./configs/dbconfig";
@@ -24,6 +24,14 @@ app.use(passport.initialize())
 //Routes
 app.use("/", userRouter);
 app.use("/students",studentRouter)
+
+app.use((err:Error, req:Request, res:Response, next:NextFunction) => {
+  console.error(err.stack); 
+  res.status(500).json({
+    message: err.message,
+    stack: err.stack,
+  });
+});
 
 connectMongo();
 app.listen(process.env.PORT, () => {

@@ -1,165 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    <title>Document</title>
-  </head>
-  <body class="">
-    <div class="flex h-screen">
-      <!-- Sidebar -->
-      <div class="w-2/12 pt-8 pl-10 text-darkText wp-4 bg-darkSecondary">
-        <h2 class="text-xl font-bold text-darkHeading">Dashboard</h2>
-        <ul class="mt-4 space-y-2">
-          <li>
-            <a href="#" class="block p-2 hover:bg-slate-400"
-              ><i class="mr-2 fa-solid fa-house"></i> Home</a
-            >
-          </li>
-          <li>
-            <a href="#" class="block p-2 hover:bg-slate-400"
-              ><i class="mr-2 fa-solid fa-school"></i> Students</a
-            >
-          </li>
-        </ul>
+<%- include('./partials/head.ejs') %>
+<body class="">
+  <div class="flex h-screen">
+    <%- include('./partials/sidebar.ejs') %>
+
+    <div class="flex-1 p-6 text-white bg-darkBackground">
+      <%- include('./partials/header.ejs') %>
+
+      <div class="flex flex-col items-center justify-between mb-6 space-y-4 md:flex-row md:space-y-0">
+        <div class="flex flex-col items-center w-full space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 md:w-auto">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search students by name"
+            class="w-full p-2 px-6 text-white rounded sm:w-auto bg-darkSecondaryAccent focus:outline-none focus:ring-2 focus:ring-white placeholder:text-darkText"
+            value="<%= search %>"
+          />
+          <button onclick="searchStudent()" class="w-full px-4 py-2 rounded bg-darkPrimary hover:bg-blue-400 sm:w-auto">
+            <i class="mr-2 fa-solid fa-search"></i> Search
+          </button>
+        </div>
+
+        <a
+          href="/students/student"
+          class="w-full px-4 py-2 text-white rounded bg-darkPrimary hover:bg-blue-400 sm:w-auto"
+        >
+          <i class="fa-solid fa-plus"></i> Add Student
+        </a>
       </div>
 
-      <!-- Main Content -->
-      <div class="flex-1 p-6 text-white bg-darkBackground">
-        <!-- Header -->
-        <div
-          class="flex items-center justify-between px-6 py-4 mb-4 rounded-sm bg-darkBorder"
-        >
-          
-            <span class="text-xl"><i class="mr-2 fa-solid fa-user"></i> <%= user.email %></span>
-            <h1 class="text-3xl">Student Management</h1>
-            <button
-              onclick="logout()"
-              class="px-4 py-2 text-white rounded bg-darkAccent hover:bg-blue-400"
-            >
-              <i class="mr-2 fa-solid fa-right-from-bracket"></i>Logout
-            </button>
-          
-        </div>
-
-        <!-- Main Content Area -->
-        <!-- Search and Add Student Button -->
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center space-x-4">
-            <!-- Search Bar -->
-            <input
-              type="text"
-              id="search"
-              placeholder="Search students by name" 
-              class="p-2 px-6 text-white rounded bg-darkSecondaryAccent focus:outline-none focus:ring-2 focus:ring-white placeholder:text-darkText"
-              value="<%= search %>"
-            />
-            <button onclick="search()" class="px-4 py-2 rounded bg-darkPrimary hover:bg-blue-400">
-              <i class="mr-2 fa-solid fa-search"></i> Search
-            </button>
-          </div>
-          <!-- Add Student Button -->
-          <a
-            href="/students/student"
-            class="px-4 py-2 text-white rounded bg-darkPrimary hover:bg-blue-400"
-          >
-            <i class="fa-solid fa-plus"></i> Add Student
-          </a>
-        </div>
-
-        <!-- Student Table Section -->
-        <div class="mb-6">
-          <h2 class="mb-4 text-2xl font-semibold text-darkHeading">
-            Student List
-          </h2>
+      <div class="mb-6">
+        <h2 class="mb-4 text-2xl font-semibold text-darkHeading">
+          Student List
+        </h2>
+        <div class="overflow-x-auto">
           <table class="min-w-full table-auto">
             <thead>
               <tr>
                 <th class="px-4 py-2 text-left border border-gray-300 text-darkHeading">Admission No</th>
                 <th class="px-4 py-2 text-left border border-gray-300 text-darkHeading">Name</th>
                 <th class="px-4 py-2 text-left border border-gray-300 text-darkHeading">Grade</th>
-                <th class="px-4 py-2 text-left border border-gray-300 text-darkHeading" >Enrollment Date</th>
+                <th class="px-4 py-2 text-left border border-gray-300 text-darkHeading">Enrollment Date</th>
                 <th class="px-4 py-2 text-left border border-gray-300 text-darkHeading">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <% students.forEach(student => {%>
-                <tr>
-                  <td class="px-4 py-2"><%= student.admissionNo %></td>
-                  <td class="px-4 py-2"><%= student.name %></td>
-                  <td class="px-4 py-2"><%= student.grade %></td>
-                  <td class="px-4 py-2"><%= student.enrollmentDate.toLocaleDateString() %></td>
-                  <td class="px-4 py-2 space-x-2">
-                    <button
-                      class="px-4 py-2 rounded hover:bg-gray-600 bg-darkSuccess" onclick="editStudent('<%= student.id %>')"
-                    >
-                      <i class="fa-solid fa-edit"></i> Edit
-                    </button>
-                    <button class="px-4 py-2 rounded hover:bg-red-600 bg-darkError" onclick="deleteStudent('<%=student.id%>')">
-                      <i class="fa-solid fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <%}); %>
-              
-              
+              <% students.forEach(student => { %>
+              <tr>
+                <td class="px-4 py-2 border border-gray-300"><%= student.admissionNo %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= student.name %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= student.grade %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= student.enrollmentDate.toLocaleDateString() %></td>
+                <td class="px-4 py-2 space-x-2 border border-gray-300">
+                  <button class="px-4 py-2 rounded hover:bg-gray-600 bg-darkSuccess" onclick="getEditStudent('<%= student.id %>')">
+                    <i class="fa-solid fa-edit"></i> Edit
+                  </button>
+                  <button class="px-4 py-2 rounded hover:bg-red-600 bg-darkError" onclick="deleteStudent('<%= student.id %>')">
+                    <i class="fa-solid fa-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>
+              <% }); %>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="/js/validation.js"></script>
-    <script>
-      var notyf = new Notyf();
-    </script>
+  <%- include('./partials/footer.ejs') %>
 
-    <script>
-      const logout = () => {
-        window.location = "/logout";
-      };
-
-      const search=()=>{
-        console.log("fdf");
-        
-        const search=document.getElementById('search').value;
-        window.location.href=`/students?search=${search}`
-      }
-
-      const deleteStudent=async(studentID)=>{
-        try{
-          const res=await fetch(`/students/student/${studentID}`,{
-            method:"DELETE",
-            headers:{
-              "content-type":'application/json'
-            },
-          })
-
-          const resData=await res.json();
-          
-
-          if(resData.success){
-            window.location.href=resData.redirectUrl
-          }else{
-            notyf.error(resData.message);
-          }
-        }catch(err){
-          console.log(err)
-        }
-      }
-      
-      const editStudent=(studentID)=>{
-        window.location.href=`/students/student/${studentID}`
-      }
-
-    
-    </script>
-  </body>
+</body>
 </html>

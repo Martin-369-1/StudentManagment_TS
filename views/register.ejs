@@ -1,4 +1,4 @@
-<%- include('./partials/header.ejs') %>
+<%- include('./partials/head.ejs') %>
   <body class="min-h-screen bg-fixed bg-center bg-no-repeat bg-cover" style="background-image: url('/assets/registerBG.jpg');">
     
     <div class="flex items-center justify-center h-screen ">
@@ -31,6 +31,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="/js/validation.js"></script>
+    <script src="/js/API/authAPI.js"></script>
     <script>
       var notyf = new Notyf();
     </script>
@@ -58,33 +59,7 @@
         registerUser(username,password,confirmPassword,email)
       });
 
-      const registerUser = async (
-        username,
-        password,
-        confirmPassword,
-        email
-      ) => {
-        try {
-          const res=await fetch('/register',{
-            method:"POST",
-            headers:{
-              "content-type":"application/json"
-            },
-            body:JSON.stringify({username,password,confirmPassword,email})
-          })
-
-          const resData=await res.json();
-          
-
-          if(resData.success){
-            window.location.href=resData.redirectUrl
-          }else{
-            notyf.error(resData.message);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      };
+      
     </script>
   </body>
 </html>
