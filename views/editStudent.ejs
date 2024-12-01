@@ -1,244 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    <title>Document</title>
-  </head>
-  <body class="">
-    <div class="flex h-screen">
-      <!-- Sidebar -->
-      <div class="w-2/12 pt-8 pl-10 text-white wp-4 bg-darkSecondary">
-        <h2 class="text-xl font-bold text-darkHeading">Dashboard</h2>
-        <ul class="mt-4 space-y-2">
-          <li>
-            <a href="#" class="block p-2 hover:bg-slate-400"
-              ><i class="mr-2 fa-solid fa-house"></i> Home</a
-            >
-          </li>
-          <li>
-            <a href="#" class="block p-2 hover:bg-slate-400"
-              ><i class="mr-2 fa-solid fa-school"></i> Students</a
-            >
-          </li>
-        </ul>
-      </div>
+<%- include('./partials/head.ejs') %>
+<body class="">
+  <div class="flex h-screen">
+    <%- include('./partials/sidebar.ejs') %>
 
-      <!-- Main Content -->
-      <div class="flex-1 p-6 text-white bg-darkBackground">
-        <!-- Header -->
-        <div
-          class="flex items-center justify-between px-6 py-4 mb-4 rounded-sm bg-darkBorder"
-        >
-          <span class="text-xl"
-            ><i class="mr-2 fa-solid fa-user"></i> <%= user.email %></span
-          >
-          <h1 class="text-3xl">Student Management</h1>
-          <button
-            onclick="logout()"
-            class="px-4 py-2 text-white rounded bg-darkAccent hover:bg-blue-400"
-          >
-            <i class="mr-2 fa-solid fa-right-from-bracket"></i>Logout
-          </button>
+    <div class="flex-1 p-6 text-white bg-darkBackground">
+      <%- include('./partials/header.ejs') %>
+
+      <div class="flex justify-center pt-14">
+        <div class="w-96" id="section1">
+          <div class="px-10 py-8 mb-6 rounded-sm w-96 bg-darkAccent">
+            <h2 class="mb-4 text-xl font-semibold text-darkHeading">
+              Personal Information
+            </h2>
+
+            <div class="mb-4">
+              <label for="name" class="block text-white">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
+                placeholder="Enter name"
+                value="<%= student.name %>"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="DOB" class="block text-white">Date of Birth</label>
+              <input
+                type="date"
+                id="DOB"
+                name="DOB"
+                value="<%= (new Date(student.DOB)).toISOString().split('T')[0] %>"
+                class="w-full p-2 text-white rounded bg-darkSecondaryAccent focus:outline-none focus:ring-2 focus:ring-darkPrimary"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="gender" class="block text-white">Gender</label>
+              <select
+                id="gender"
+                name="gender"
+                class="w-full p-2 text-white rounded bg-darkSecondaryAccent focus:outline-none focus:ring-2 focus:ring-darkPrimary"
+              >
+                <option value="male" <%= (student.gender == 'male')? 'selected':'' %>>Male</option>
+                <option value="female" <%= (student.gender == 'female')? 'selected':'' %>>Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <p></p>
+            <button onclick="goToSection2()">
+              next<i class="ml-2 fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="flex justify-center pt-14">
-          <!-- section1 -->
-          <div class="w-96" id="section1">
-            <div class="px-10 py-8 mb-6 rounded-sm w-96 bg-darkAccent">
-              <h2 class="mb-4 text-xl font-semibold text-darkHeading">
-                Personal Information
-              </h2>
+        <div class="hidden w-96" id="section2">
+          <div class="px-10 py-8 mb-6 rounded-sm w-96 bg-darkAccent">
+            <h2 class="mb-4 text-xl font-semibold text-darkHeading">
+              Academic Information
+            </h2>
 
-              <!-- Full Name -->
-              <div class="mb-4">
-                <label for="name" class="block text-white">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
-                  placeholder="Enter name"
-                  value="<%= student.name %>"
-                />
-              </div>
-
-              <!-- Date of Birth -->
-              <div class="mb-4">
-                <label for="DOB" class="block text-white">Date of Birth</label>
-                <input
-                  type="date"
-                  id="DOB"
-                  name="DOB"
-                  value="<%= (new Date(student.DOB)).toISOString().split('T')[0] %>"
-                  class="w-full p-2 text-white rounded bg-darkSecondaryAccent focus:outline-none focus:ring-2 focus:ring-darkPrimary"
-                />
-              </div>
-
-              <!-- Gender -->
-              <div class="mb-4">
-                <label for="gender" class="block text-white">Gender</label>
-                <select
-                  id="gender"
-                  name="gender"
-                  class="w-full p-2 text-white rounded bg-darkSecondaryAccent focus:outline-none focus:ring-2 focus:ring-darkPrimary"
-                >
-                  <option value="male" <%= (student.gender == 'male')? 'selected':'' %>>Male</option>
-                  <option value="female" <%= (student.gender == 'female')? 'selected':'' %>>Female</option>
-                </select>
-              </div>
+            <div class="mb-4">
+              <label for="admissionNo" class="block text-white">Admission Number</label>
+              <input
+                type="text"
+                id="admissionNo"
+                name="admissionNo"
+                class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
+                placeholder="Enter student ID"
+                value="<%= student.admissionNo %>"
+              />
             </div>
-            <div class="flex justify-between">
-              <p></p>
-              <button onclick="goToSection2()">
-                next<i class="ml-2 fa-solid fa-arrow-right"></i>
+
+            <div class="mb-4">
+              <label for="grade" class="block text-white">Grade</label>
+              <input
+                type="text"
+                id="grade"
+                name="grade"
+                class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
+                placeholder="Enter grade"
+                value="<%= student.grade %>"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="enrollmentDate" class="block text-white">Enrollment Date</label>
+              <input
+                type="date"
+                id="enrollmentDate"
+                name="enrollmentDate"
+                value="<%= (new Date(student.enrollmentDate)).toISOString().split('T')[0] %>"
+                class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
+              />
+            </div>
+
+            <div class="text-center">
+              <button
+                class="px-3 py-2 rounded-md bg-darkSuccess hover:bg-black"
+                id="submitBtn"
+                data-studentid="<%= student._id %>"
+              >
+                Submit 
               </button>
             </div>
           </div>
-
-          <!-- section2 -->
-          <div class="hidden w-96" id="section2">
-            <div class="px-10 py-8 mb-6 rounded-sm w-96 bg-darkAccent">
-              <h2 class="mb-4 text-xl font-semibold text-darkHeading">
-                Academic Information
-              </h2>
-
-              <!-- Student ID -->
-              <div class="mb-4">
-                <label for="admissionNo" class="block text-white"
-                  >Admission Number</label
-                >
-                <input
-                  type="text"
-                  id="admissionNo"
-                  name="admissionNo"
-                  class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
-                  placeholder="Enter student ID"
-                  value="<%= student.admissionNo %>"
-                />
-              </div>
-
-              <!-- Grade/Level -->
-              <div class="mb-4">
-                <label for="grade" class="block text-white">Grade</label>
-                <input
-                  type="text"
-                  id="grade"
-                  name="grade"
-                  class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
-                  placeholder="Enter grade"
-                  value="<%= student.grade %>"
-                />
-              </div>
-
-              <!-- Enrollment Date -->
-              <div class="mb-4">
-                <label for="enrollmentDate" class="block text-white"
-                  >Enrollment Date</label
-                >
-                <input
-                  type="date"
-                  id="enrollmentDate"
-                  name="enrollmentDate"
-                  value="<%= (new Date(student.enrollmentDate)).toISOString().split('T')[0] %>"
-                  class="w-full p-2 text-white rounded bg-darkSecondaryAccent placeholder:text-white focus:outline-none focus:ring-2 focus:ring-darkPrimary"
-                />
-              </div>
-
-              <div class="text-center">
-                <button
-                  class="px-3 py-2 rounded-md bg-darkSuccess hover:bg-black" id="submitBtn"
-                  data-studentid="<%= student._id %>"
-                >
-                  Submit 
-                </button>
-              </div>
-            </div>
-            <div class="flex justify-between">
-              <button onclick="goToSection1()" >
-                <i class="mr-2 fa-solid fa-arrow-left"></i> prev
-              </button>
-              <p></p>
-            </div>
+          <div class="flex justify-between">
+            <button onclick="goToSection1()">
+              <i class="mr-2 fa-solid fa-arrow-left"></i> prev
+            </button>
+            <p></p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="/js/validation.js"></script>
-    <script>
-      var notyf = new Notyf();
-    </script>
-    <script>
-      const logout = () => {
-        window.location = "/logout";
-      };
+  <%- include('./partials/footer.ejs') %>
+  <script>
+    const section1 = document.getElementById("section1");
+    const section2 = document.getElementById("section2");
 
-      const section1 = document.getElementById("section1");
-      const section2 = document.getElementById("section2");
+    const goToSection1 = () => {
+      section1.classList.remove("hidden");
+      section2.classList.add("hidden");
+    };
 
-      const goToSection1 = () => {
-        section1.classList.remove("hidden");
-        section2.classList.add("hidden");
-      };
+    const goToSection2 = () => {
+      section1.classList.add("hidden");
+      section2.classList.remove("hidden");
+    };
 
-      const goToSection2 = () => {
-        section1.classList.add("hidden");
-        section2.classList.remove("hidden");
-      };
+    const submitBtn = document.getElementById("submitBtn");
 
-      const submitBtn = document.getElementById("submitBtn");
+    submitBtn.addEventListener("click", () => {
+      const name = document.getElementById("name").value;
+      const DOB = document.getElementById("DOB").value;
+      const gender = document.getElementById("gender").value;
+      const grade = document.getElementById("grade").value;
+      const admissionNo = document.getElementById("admissionNo").value;
+      const enrollmentDate = document.getElementById("enrollmentDate").value;
 
-      submitBtn.addEventListener("click", () => {
-        const name = document.getElementById("name").value;
-        const DOB = document.getElementById("DOB").value;
-        const gender = document.getElementById("gender").value;
-        const grade = document.getElementById("grade").value;
-        const admissionNo = document.getElementById("admissionNo").value;
-        const enrollmentDate = document.getElementById("enrollmentDate").value;
-        console.log(submitBtn.dataset)
-        editStudent(submitBtn.dataset.studentid,name,DOB,gender,grade,admissionNo,enrollmentDate)
-        
-      });
-
-      const editStudent = async (studentID,name,DOB,gender,grade,admissionNo,enrollmentDate) => {
-        try {
-            console.log(studentID);
-            
-          const res = await fetch(`/students/student/${studentID}`, {
-            method: "PUT",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify({
-              name,
-              DOB,
-              gender,
-              grade,
-              admissionNo,
-              enrollmentDate,
-            }),
-          });
-
-          const resData = await res.json();
-          console.log(resData)
-          if(resData.success){
-            window.location.href=resData.redirectUrl
-          }else{
-            notyf.error(resData.message);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      };
-    </script>
-  </body>
+      console.log(submitBtn.dataset);
+      putEditStudent(submitBtn.dataset.studentid, name, DOB, gender, grade, admissionNo, enrollmentDate);
+    });
+  </script>
+</body>
 </html>

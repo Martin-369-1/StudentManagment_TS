@@ -1,34 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <title>Document</title>
-</head>
+<%- include('./partials/head.ejs') %>
 <body class="">
     <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-2/12 pt-8 pl-10 text-darkText wp-4 bg-darkSecondary">
-          <h2 class="text-xl font-bold text-darkHeading">Dashboard</h2>
-          <ul class="mt-4 space-y-2">
-            <li><a href="#" class="block p-2 hover:bg-slate-400"><i class="mr-2 fa-solid fa-house"></i> Home</a></li>
-            <li><a href="#" class="block p-2 hover:bg-slate-400"><i class="mr-2 fa-solid fa-school"></i> Students</a></li>
-            
-          </ul>
-        </div>
+      <%- include('./partials/sidebar.ejs') %>
       
         <!-- Main Content -->
         <div class="flex-1 p-6 text-white bg-darkBackground">
-          <!-- Header -->
-          <div class="flex items-center justify-between mb-4">
-            <h1 class="text-3xl">Welcome to Your Dashboard</h1>
-            <div class="flex items-center space-x-4">
-              <span><i class="mr-2 fa-solid fa-user"></i> <%= user.email %></span>
-              <button onclick="logout()" class="px-4 py-2 text-white rounded bg-darkAccent hover:bg-blue-400"><i class="mr-2 fa-solid fa-right-from-bracket"></i>Logout</button>
-            </div>
-          </div>
+          <%- include('./partials/header.ejs') %>
       
           <!-- Main Content Area -->
           <div class="grid grid-cols-3 gap-4">
@@ -48,10 +25,7 @@
         </div>
       </div>
       
-      <script>
-        const logout=()=>{
-          window.location='/logout';
-        }
-      </script>
+      <%- include('./partials/footer.ejs') %>
+    
 </body>
 </html>

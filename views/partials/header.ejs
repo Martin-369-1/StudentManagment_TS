@@ -1,16 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      body {
-        padding: 0;
-      }
-    </style>
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    
-  </head>
-</html>
+<div
+  class="flex items-center justify-between px-6 py-4 mb-4 rounded-sm bg-darkBorder"
+>
+  <div class="relative hidden text-left max-lg:block">
+    <button
+      onclick="toggleDropdown()"
+      class="inline-flex items-center justify-center w-full px-2 py-1 text-xs font-medium text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+    >
+      <i class="mr-1 fas fa-caret-down"></i>
+    </button>
+
+    <div
+      id="dropdownMenu"
+      class="absolute left-0 z-10 hidden px-2 mt-2 origin-top-left bg-gray-300 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+    >
+      <div
+        class="py-1 text-sm text-gray-700"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="options-menu"
+      >
+        <a href="#" class="flex items-center py-2 pl-2 hover:bg-slate-400"
+          ><i class="mr-2 fa-solid fa-user"></i> <%= user.email %></a
+        >
+        <div class="pl-2 hover:bg-slate-400">
+          <button onclick="logout()" class="py-2">
+            <i class="mr-2 fa-solid fa-right-from-bracket"></i>Logout
+          </button>
+        </div>
+        <a href="/" class="block p-2 hover:bg-slate-400"
+          ><i class="mr-2 fa-solid fa-house"></i> Home</a
+        >
+        <a href="/students" class="block p-2 hover:bg-slate-400"
+          ><i class="mr-2 fa-solid fa-school"></i> Students</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <span class="font-serif text-xl max-lg:hidden"
+    ><i class="mr-2 fa-solid fa-user"></i> <%= user.email %></span
+  >
+  <h1 class="font-mono text-3xl max-lg:text-xl">Student Management</h1>
+  <button
+    onclick="logout()"
+    class="px-4 py-2 text-white rounded bg-darkAccent hover:bg-blue-400 max-lg:hidden"
+  >
+    <i class="mr-2 fa-solid fa-right-from-bracket"></i>Logout
+  </button>
+
+  <div class="hidden max-lg:block"></div>
+</div>
